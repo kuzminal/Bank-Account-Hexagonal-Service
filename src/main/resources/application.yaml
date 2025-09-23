@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: bankaccount
+
+  datasource:
+    url: jdbc:postgresql://localhost:5555/accounts
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      pool-name: HikariCP
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show_sql: false
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true # Prevents issues with LOBs
+        connection:
+          url: ${spring.datasource.url}
+          username: ${spring.datasource.username}
+          password: ${spring.datasource.password}
+          autocommit: false
+          isolation: TRANSACTION_REPEATABLE_READ
+          pool_size: ${spring.datasource.hikari.maximum-pool-size}
+    open-in-view: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic: bank-account-events
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+server:
+  port: 8080

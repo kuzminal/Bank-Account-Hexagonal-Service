@@ -1,0 +1,29 @@
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "owner": "Alex",
+  "initialBalance": 120.00
+}
+
+###
+POST http://localhost:8080/accounts/152/deposit
+Content-Type: application/json
+
+{
+  "amount": 100.00
+}
+
+###
+POST http://localhost:8080/accounts/152/withdraw
+Content-Type: application/json
+
+{
+  "amount": 110.00
+}
+
+###
+GET http://localhost:8080/accounts/152/balance
+Accept: application/json
+
+###
