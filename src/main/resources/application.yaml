@@ -42,5 +42,43 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      request.timeout.ms: 5000
+      retries: 3
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 10
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        record-exceptions:
+          - org.springframework.kafka.KafkaException
+          - org.apache.kafka.common.errors.TimeoutException
+          - org.apache.kafka.common.errors.NetworkException
+          - java.io.IOException
+    instances:
+      kafka-producer:
+        base-config: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    ru.kuzmin.bankaccount.infrastructure.adapters: DEBUG
+    org.springframework.kafka: WARN
+
 server:
   port: 8080

@@ -28,7 +28,7 @@ public class BankAccountService implements BankAccountServicePort {
     public BankAccountDTO createAccount(String owner, BigDecimal initialBalance) {
         BankAccount account = new BankAccount(null, owner, initialBalance);
         var response = BankAccountMapper.INSTANCE.toBankAccountDto(repository.save(account));
-        notification.notify(new AccountCreatedEvent(account));
+        notification.notify(new AccountCreatedEvent(response));
         return response;
     }
 
@@ -38,7 +38,7 @@ public class BankAccountService implements BankAccountServicePort {
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         account.deposit(amount);
         repository.save(account);
-        notification.notify(new AccountDepositedEvent(account, amount));
+        notification.notify(new AccountDepositedEvent(BankAccountMapper.INSTANCE.toBankAccountDto(account), amount));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BankAccountService implements BankAccountServicePort {
                 .orElseThrow(() -> new RuntimeException("Account not found"));
         account.withdraw(amount);
         repository.save(account);
-        notification.notify(new AccountWithdrawnEvent(account, amount));
+        notification.notify(new AccountWithdrawnEvent(BankAccountMapper.INSTANCE.toBankAccountDto(account), amount));
     }
 
     @Override
