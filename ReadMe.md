@@ -42,7 +42,7 @@ flowchart LR
     Outbox -->|"INSERT (в той же транзакции)"| PG
 
     Relay["OutboxRelay"] -->|"findUnsent"| Outbox
-    Relay -->|"publish (key = aggregateId)"| KF[("Kafka")]
+    Relay -->|"publish (key = aggregateId)"| KF@{ shape: das, label: "Kafka" }
 ```
 
 ### Структура пакетов
