@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/badge/PostgreSQL-17-blue?logo=postgresql&logoColor=white" alt="PostgreSQL 17">
   <img src="https://img.shields.io/badge/Kafka-3.9-231F20?logo=apachekafka&logoColor=white" alt="Kafka 3.9">
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License MIT">
+  <img src="https://github.com/kuzminal/Bank-Account-Hexagonal-Service/actions/workflows/ci.yml/badge.svg" alt="CI">
 </p>
 
 ## Зачем этот проект
@@ -80,7 +81,7 @@ src/main/java/ru/kuzmin/bankaccount/
 |-----------|------------|
 | Язык | Java 21 |
 | Фреймворк | Spring Boot 3.5, Spring Web, Spring Data JPA, Spring Kafka |
-| БД | PostgreSQL 17, HikariCP |
+| БД | PostgreSQL 17, HikariCP, Flyway |
 | Брокер | Apache Kafka 3.9 (KRaft) |
 | Маппинг | MapStruct, Lombok |
 | Тесты | JUnit 5, Mockito, AssertJ, ArchUnit, Testcontainers |
@@ -166,8 +167,8 @@ mvn test
 | ✅ | Optimistic locking (`@Version`) |
 | ✅ | REST API (create / deposit / withdraw / balance) |
 | ✅ | Юнит / сервисные / контроллерные / ArchUnit / интеграционные тесты |
-| 🔜 | CI (GitHub Actions): build + test |
-| 🔜 | Миграции БД (Flyway/Liquibase) вместо `ddl-auto: update` |
+| ✅ | Миграции БД (Flyway) вместо `ddl-auto: update` |
+| ✅ | CI (GitHub Actions): build + test |
 
 ## Лицензия
 
