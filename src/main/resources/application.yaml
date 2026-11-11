@@ -38,9 +38,16 @@ spring:
 
   kafka:
     bootstrap-servers: localhost:9092
-    topic: bank-account-events
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+app:
+  kafka:
+    topic: bank-account-events
+  outbox:
+    batch-size: 100
+    relay-delay-ms: 1000
+
 server:
   port: 8080

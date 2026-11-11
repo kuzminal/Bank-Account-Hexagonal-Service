@@ -1,18 +1,36 @@
 package ru.kuzmin.bankaccount.domain.event;
 
-import lombok.Getter;
-import lombok.Setter;
-import ru.kuzmin.bankaccount.domain.models.entity.BankAccount;
-
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+/**
+ * Событие снятия средств со счёта.
+ */
 public class AccountWithdrawnEvent extends DomainEvent {
-    private final BankAccount account;
-    private final BigDecimal withdrawnAmount;
-    public AccountWithdrawnEvent(BankAccount account, BigDecimal withdrawnAmount) {
-        this.account = account;
-        this.withdrawnAmount = withdrawnAmount;
+
+    private final Long accountId;
+    private final BigDecimal amount;
+    private final BigDecimal balanceAfter;
+
+    public AccountWithdrawnEvent(Long accountId, BigDecimal amount, BigDecimal balanceAfter) {
+        this.accountId = accountId;
+        this.amount = amount;
+        this.balanceAfter = balanceAfter;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public BigDecimal getBalanceAfter() {
+        return balanceAfter;
+    }
+
+    @Override
+    public String aggregateId() {
+        return String.valueOf(accountId);
     }
 }

@@ -1,18 +1,36 @@
 package ru.kuzmin.bankaccount.domain.event;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import ru.kuzmin.bankaccount.domain.models.entity.BankAccount;
-
 import java.math.BigDecimal;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+/**
+ * Событие пополнения счёта.
+ */
 public class AccountDepositedEvent extends DomainEvent {
-    private final BankAccount account;
-    private final BigDecimal depositedAmount;
-    public AccountDepositedEvent(BankAccount account, BigDecimal depositedAmount) {
-        this.account = account;
-        this.depositedAmount = depositedAmount;
+
+    private final Long accountId;
+    private final BigDecimal amount;
+    private final BigDecimal balanceAfter;
+
+    public AccountDepositedEvent(Long accountId, BigDecimal amount, BigDecimal balanceAfter) {
+        this.accountId = accountId;
+        this.amount = amount;
+        this.balanceAfter = balanceAfter;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public BigDecimal getBalanceAfter() {
+        return balanceAfter;
+    }
+
+    @Override
+    public String aggregateId() {
+        return String.valueOf(accountId);
     }
 }

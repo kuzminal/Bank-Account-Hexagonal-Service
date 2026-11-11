@@ -1,39 +1,48 @@
 package ru.kuzmin.bankaccount.domain.event;
 
-import org.springframework.beans.factory.annotation.Value;
-
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.UUID;
 
 /**
- * Маркерный интерфейс для всех доменных событий.
- * Определяет контракт для событий, происходящих в доменной модели.
+ * Базовый класс доменного события.
+ * Событие неизменяемо: идентификатор и время фиксируются в момент создания.
+ * Не зависит от Spring и инфраструктуры.
  */
 public abstract class DomainEvent {
-    @Value("${orders.eventVersion:1.0}")
-    private String eventVersion;
 
-    /**
-     * Возвращает время возникновения события
-     *
-     * @return LocalDateTime - момент времени, когда событие произошло
-     */
-    LocalDateTime occurredOn() {
-        return LocalDateTime.now();
+    private final UUID eventId;
+    private final Instant occurredOn;
+
+    protected DomainEvent() {
+        this.eventId = UUID.randomUUID();
+        this.occurredOn = Instant.now();
+    }
+
+    public UUID getEventId() {
+        return eventId;
+    }
+
+    public Instant getOccurredOn() {
+        return occurredOn;
     }
 
     /**
-     * Возвращает тип события (опционально, для удобства)
-     * @return String - тип события
+     * Тип события — используется потребителями для маршрутизации/десериализации.
      */
-    String eventType() {
-        return this.getClass().getSimpleName();
+    public String eventType() {
+        return getClass().getSimpleName();
     }
 
     /**
-     * Возвращает версию события (для управления схемами)
-     * @return String - версия события
+     * Версия схемы события — для управления эволюцией контракта.
      */
-    String eventVersion() {
-        return eventVersion;
+    public String eventVersion() {
+        return "1.0";
     }
+
+    /**
+     * Идентификатор агрегата — используется как ключ партиции Kafka,
+     * чтобы события одного счёта попадали в одну партицию (сохранение порядка).
+     */
+    public abstract String aggregateId();
 }
