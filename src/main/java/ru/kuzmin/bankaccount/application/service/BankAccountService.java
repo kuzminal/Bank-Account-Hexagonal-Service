@@ -12,7 +12,7 @@ import ru.kuzmin.bankaccount.domain.models.entity.BankAccount;
 import ru.kuzmin.bankaccount.domain.ports.in.BankAccountServicePort;
 import ru.kuzmin.bankaccount.domain.ports.out.BankAccountRepositoryPort;
 import ru.kuzmin.bankaccount.domain.ports.out.OutboxRepositoryPort;
-import ru.kuzmin.bankaccount.infrastructure.mappers.BankAccountMapper;
+import ru.kuzmin.bankaccount.application.mappers.BankAccountMapper;
 
 import java.math.BigDecimal;
 
